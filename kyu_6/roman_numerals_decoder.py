@@ -1,41 +1,41 @@
-from functools import reduce
+"""
+Roman Numerals Decoder
+https://www.codewars.com/kata/51b6249c4612257ac0000005/train/python
+
+Modern Roman numerals are
+written by expressing each decimal digit of the number to be encoded
+separately, starting with the leftmost digit and skipping any 0s.
+
+So 1990 is rendered "MCMXC" (1000 = M, 900 = CM, 90 = XC)
+and 2008 is rendered "MMVIII" (2000 = MM, 8 = VIII).
+
+The Roman numeral for 1666, "MDCLXVI", uses each letter in descending
+order.
+
+MMCXX(IV) 1000, 1000, 100, 10, 10, 1 , 5
+
+"""
 
 
 def roman_numerals_decoder(roman):
-    # TODO: implement better
-    pass
-
-
-def roman_numerals_decoder_recursion(roman):
-    """
-    Roman Numerals Decoder
-    https://www.codewars.com/kata/51b6249c4612257ac0000005/train/python
-
-    Create a function that takes a Roman numeral as its argument and
-    returns its value as a numeric decimal integer.  You don't need to
-    validate the form of the Roman numeral. Modern Roman numerals are
-    written by expressing each decimal digit of the number to be encoded
-    separately, starting with the leftmost digit and skipping any 0s.
-
-    So 1990 is rendered "MCMXC" (1000 = M, 900 = CM, 90 = XC)
-    and 2008 is rendered "MMVIII" (2000 = MM, 8 = VIII).
-
-    The Roman numeral for 1666, "MDCLXVI", uses each letter in descending
-    order.
-    """
     alphabet = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
-
-    def aux(symbols_list, acc=0.0):
-        if len(symbols_list) == 1:
-            return acc + alphabet[symbols_list[0]]
-        elif not len(symbols_list):
-            return acc
+    numbers = [alphabet[x] for x in list(roman)]
+    numbers.reverse()
+    total = 0
+    for i, e in enumerate(numbers):
+        if i == 0 or e >= numbers[i - 1]:
+            total += e
         else:
-            first = alphabet[symbols_list[0]]
-            second = alphabet[symbols_list[1]]
-            if first < second:
-                return aux(symbols_list[2:], acc + second - first)
-            else:
-                return aux(symbols_list[1:], acc + first)
+            total -= e
+    return total
 
-    return aux(list(roman))
+
+assert roman_numerals_decoder("XC") == 90
+assert roman_numerals_decoder("IV") == 4
+assert roman_numerals_decoder("XIV") == 14
+assert roman_numerals_decoder("XXI") == 21
+assert roman_numerals_decoder("I") == 1
+assert roman_numerals_decoder("MMCXXIV") == 2124
+assert roman_numerals_decoder("II") == 2
+assert roman_numerals_decoder("MMVIII") == 2008
+assert roman_numerals_decoder("MDCLXVI") == 1666

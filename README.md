@@ -1,4 +1,3 @@
 # codewars
-My solutions for CodeWars Python katas
 
-- `pytest` - run tests
+Learning idiomatic Python by solving CodeWars Python katas.
